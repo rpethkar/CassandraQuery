@@ -1,0 +1,29 @@
+{
+  "name": "CassandraQuery",
+  "version": "0.0.1",
+  "type": "flogo:activity",
+  "description": "Cassandra Connection and Query activity description",
+  "version": "0.0.1",
+  "title": "CassaDB",
+
+  "inputs":[
+    {
+      "name": "ClusterIP",
+      "type": "string"
+    },
+	{
+      "name": "Keyspace",
+      "type": "string"
+    },
+	{
+      "name": "TableName",
+      "type": "string"
+    }	
+  ],
+  "outputs": [
+    {
+      "name": "result",
+      "type": "string"
+    }
+  ]
+}
