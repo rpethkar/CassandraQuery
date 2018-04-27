@@ -5,7 +5,7 @@
   "description": "Cassandra Connection and Query activity description",
   "version": "0.0.1",
   "title": "CassandraQueryDB",
-   "ref": "github.com/dhire05/CassandraQuery",
+  "ref": "github.com/dhire05/CassandraQuery",
 
   "inputs":[
     {

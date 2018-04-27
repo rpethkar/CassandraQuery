@@ -3,6 +3,7 @@ package CassandraQuery
 import (
 	"io/ioutil"
 	"testing"
+	//"strconv"
 
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-contrib/action/flow/test"
@@ -55,10 +56,19 @@ func TestEval(t *testing.T) {
 	tc.SetInput("Keyspace", "sample")
 	tc.SetInput("TableName", "employee")
 	
+//	var(
+//		empid int
+//		name string
+//		salary float64			
+//	)
 	act.Eval(tc)
 
+//	tempID := strconv.Itoa(empid)
+	//tsalary := strconv.ParseFloat(salary, 64);
+	//tsalary := floattostr(salary)
+//	tsalary := strconv.FormatFloat(salary, 'f', 2, 64)
 	
 	//check result attr
 	result := tc.GetOutput("result")
-	assert.Equal(t,result, "The Flogo engine says Query Connection Successfull")
+	assert.Equal(t,result,("EmpID: 103 Name: pqr Salary: 7000.50"))
 }
