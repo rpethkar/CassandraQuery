@@ -4,7 +4,8 @@ import (
 	"github.com/TIBCOSoftware/flogo-lib/core/activity"
 	"github.com/TIBCOSoftware/flogo-lib/logger"
 	 "github.com/gocql/gocql"
-	"fmt"
+	//"fmt"
+	"strconv"
 	
 )
 	// THIS IS ADDED
@@ -41,23 +42,12 @@ func (a *MyActivity) Eval(context activity.Context) (done bool, err error)  {
  
     // gocql requires the keyspace to be provided before the session is created.
     // In future there might be provisions to do this later.
-    cluster.Keyspace = keySpace
- 
-    // This is time after which the creation of session call would timeout.
-    // This can be customised as needed.
-    //cluster.Timeout = 10 * time.Second 
+    cluster.Keyspace = keySpace 
+    
  
    // cluster.ProtoVersion = 4
     session, err := cluster.CreateSession()
 	log.Debugf("Session Created Sucessfully")
-	
-	if err != nil {
-       log.Debugf("Could not connect to cassandra cluster: ", err)
-   }
-	log.Debugf("Session : " , session)
-	log.Debugf("Cluster : " , clusterIP)
-	log.Debugf("Keyspace : ", keySpace)
-	log.Debugf("Session Timeout : " ,cluster.Timeout)
 	
 	var(
 		empid int
@@ -67,16 +57,28 @@ func (a *MyActivity) Eval(context activity.Context) (done bool, err error)  {
 	
 	iter := session.Query("SELECT empid, name, salary FROM "+tableName).Iter()
     for iter.Scan(&empid , &name, &salary) {
-        fmt.Println("EmpID: ", empid,"Name: ", name , "Salary: ", salary)
+       // fmt.Println("EmpID: ", empid,"Name: ", name , "Salary: ", salary)
         
     }
 	if err := iter.Close(); err != nil {
 		log.Debugf("Error")		
 	}
 	
+	if err != nil {
+       log.Debugf("Could not connect to cassandra cluster: ", err)
+   }
+	log.Debugf("Session : " , session)
+	log.Debugf("Cluster : " , clusterIP)
+	log.Debugf("Keyspace : ", keySpace)
+	log.Debugf("Session Timeout : " ,cluster.Timeout)	
+    
+	tempID := strconv.Itoa(empid)
+	//tsalary := strconv.ParseFloat(salary, 64);
+	//tsalary := floattostr(salary)
+	tsalary := strconv.FormatFloat(salary, 'f', 2, 64)
 
 	// Set the result as part of the context
-	context.SetOutput("result", "The Flogo engine says Query Connection Successfull")
+	context.SetOutput("result",("EmpID: "+tempID+" Name: "+name +" Salary: "+tsalary))
 
 	// Signal to the Flogo engine that the activity is completed
 	return true, nil
