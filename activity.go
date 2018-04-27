@@ -58,7 +58,7 @@ func (a *MyActivity) Eval(context activity.Context) (done bool, err error)  {
 	iter := session.Query("SELECT empid, name, salary FROM "+tableName).Iter()
     for iter.Scan(&empid , &name, &salary) {
        // fmt.Println("EmpID: ", empid,"Name: ", name , "Salary: ", salary)
-        
+        log.Debugf("EmpID: ", empid,"Name: ", name , "Salary: ", salary)
     }
 	if err := iter.Close(); err != nil {
 		log.Debugf("Error")		
